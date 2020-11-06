@@ -1,0 +1,9 @@
+{
+  "name": "PdfConverter",
+  "description": "",
+  "version": "0.1.0",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-prune-plugin": "^1.4.3"
+  }
+}

@@ -1,0 +1,8 @@
+profile: "prod"
+region: "us-east-1"
+stage: "prod"
+service: "PdfConverter"
+accountid: "789713437661"
+layerVersion: "5"
+s3bucketname: "nts_images"
+deploymentbucket: "serverless-code-files"

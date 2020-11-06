@@ -1,0 +1,8 @@
+profile: "dev"
+region: "ap-south-1"
+stage: "dev"
+service: "PdfConverter"
+accountid: "792454514657"
+layerVersion: "2"
+s3bucketname: "dm-images"
+deploymentbucket: "serverless-code-files-dev"
