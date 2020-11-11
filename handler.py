@@ -25,24 +25,24 @@ def pdf2png(event,context):
         s3 = boto3.resource("s3")
         s3Client = boto3.client("s3")
         lambdaClient = boto3.client("lambda")
-        obj = s3.Object(event['s3Bucket'], '{0}/{1}/{2}.pdf'.format(event['inputFilePath'],event['shipmentId'],event['inputFileName']))
+        obj = s3.Object(event['s3Bucket'], '{0}/{1}/{2}.pdf'.format(event['inputFilePath'],event['outputFilePath'],event['FileName']))
         infile = obj.get()['Body'].read()
         FMT = 'png'
         pngS3PathList = [] 
         images = convert_from_bytes(infile)
         for page_num, image in enumerate(images):  
-            location = '{0}/{1}_{2}.{3}'.format(event['outputFilePath'],event['outputFileName'],str(page_num),FMT)
+            location = '{0}/{1}_{2}.{3}'.format(event['outputFilePath'],event['FileName'],str(page_num),FMT)
             buffer = BytesIO()
             image.save(buffer, FMT.upper())
             buffer.seek(0)
             s3.Object(event['s3Bucket'],location).put(Body=buffer)
-            pngS3PathList.append("{0}/{1}/{2}_{3}.{4}".format(event['s3Url'],event['outputFilePath'],event['outputFileName'],str(page_num),FMT))
+            pngS3PathList.append("{0}/{1}/{2}_{3}.{4}".format(event['s3Url'],event['outputFilePath'],event['FileName'],str(page_num),FMT))
         
         pngResponseParameters.status = "Success"
         pngResponseParameters.pngS3Path = pngS3PathList
         pngResponseParameters.statusMessage = ""        
        
-        s3Client.delete_object(Bucket=event['s3Bucket'],Key='{0}/{1}/{2}.pdf'.format(event['inputFilePath'],event['shipmentId'],event['inputFileName']))    
+        s3Client.delete_object(Bucket=event['s3Bucket'],Key='{0}/{1}/{2}.pdf'.format(event['inputFilePath'],event['outputFilePath'],event['FileName']))    
 
         inputParams = {
             "s3Path" : pngS3PathList,
